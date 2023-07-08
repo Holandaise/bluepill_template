@@ -31,7 +31,7 @@
 # C++ hasn't been actually tested with this..... sorry bout that. ;)
 # Second expansion/secondary not set, add this if you need them.
 
-BUILD_DIR ?= bin
+BUILD_DIR ?= build
 OPT ?= -Os
 CSTD ?= -std=c99
 
@@ -111,7 +111,8 @@ LDLIBS += -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 %: SCCS/s.%
 
 all: $(PROJECT).elf $(PROJECT).bin
-flash: $(PROJECT).flash
+flash: $(PROJECT).bin
+	st-flash --reset write $(PROJECT).bin 0x8000000
 
 # error if not using linker script generator
 ifeq (,$(DEVICE))
