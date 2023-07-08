@@ -6,7 +6,7 @@
                 "${workspaceFolder}/libopencm3/**"
             ],
             "defines": [
-                "stm32f103c8t6"
+                "STM32F1"
             ],
             "compilerPath": "/usr/bin/arm-none-eabi-gcc",
             "cStandard": "c99",
