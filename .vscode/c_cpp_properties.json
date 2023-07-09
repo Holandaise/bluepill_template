@@ -3,7 +3,8 @@
         {
             "name": "stm32",
             "includePath": [
-                "${workspaceFolder}/libopencm3/**"
+                "${workspaceFolder}/**",
+                "/usr/arm-none-eabi/include/**"
             ],
             "defines": [
                 "STM32F1"
