@@ -18,8 +18,9 @@ static void gpio_setup(void){
 
 static void systick_setup(void){
 	systick_set_clocksource(STK_CSR_CLKSOURCE_AHB);
+	systick_set_frequency(1000, rcc_ahb_frequency); // this calls systick_set_reload
+	//systick_set_reload(rcc_ahb_frequency / 1000 -1); // reload systick every millisecond
 	systick_clear();
-	systick_set_reload(rcc_ahb_frequency / 1000 -1); // reload systick every millisecond
 	systick_interrupt_enable();
 	systick_counter_enable();
 }
@@ -75,7 +76,7 @@ int main(void){
 			usart_wait_send_ready(USART1);
 			usart_send_blocking(USART1, '\n');
 		}
-		delay(100);
+		delay(1000);
 	}
 	return 0;
 }
