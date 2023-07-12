@@ -1,8 +1,9 @@
 PROJECT = timer-test
 BUILD_DIR = build
 
-SHARED_DIR = ../common
+SHARED_DIR = common
 CFILES = my-project.c
+CFILES += $(SHARED_DIR)/common.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f103c8t6

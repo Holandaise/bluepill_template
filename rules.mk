@@ -32,7 +32,7 @@
 # Second expansion/secondary not set, add this if you need them.
 
 BUILD_DIR ?= build
-OPT ?= -Os
+OPT ?= -O
 CSTD ?= -std=c99
 
 # Be silent per default, but 'make V=1' will show all compiler calls.
@@ -61,9 +61,6 @@ OBJS = $(CFILES:%.c=$(BUILD_DIR)/%.o)
 OBJS += $(CXXFILES:%.cxx=$(BUILD_DIR)/%.o)
 OBJS += $(AFILES:%.S=$(BUILD_DIR)/%.o)
 GENERATED_BINS = $(PROJECT).elf $(PROJECT).bin $(PROJECT).map $(PROJECT).list $(PROJECT).lss
-
-# Added by Adam Montgomery
-OPENCM3_DEFS += -DSTM32F1
 
 TGT_CPPFLAGS += -MD
 TGT_CPPFLAGS += -Wall -Wundef $(INCLUDES)

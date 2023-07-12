@@ -16,3 +16,14 @@ you can fix things by running ```git submodule update --init``` (This is only ne
 # As a template
 You should replace this with your _own_ README if you are using this
 as a template.
+
+# Debugging
+First open an openocd context with the stlink. It will give you a port to connect to with GDB.
+```sh
+openocd -f /usr/share/openocd/scripts/interface/stlink.cfg -f /usr/share/openocd/scripts/board/stm32f103c8_blue_pill.cfg
+```
+Then open GDB.
+``` sh
+arm-none-eabi-gdb firmware.elf
+```
+Need to connect to the remote target from within GDB console.
