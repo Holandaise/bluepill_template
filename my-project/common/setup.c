@@ -14,7 +14,7 @@ void clock_setup(void)
 
 void uart_setup(void)
 {
-	rcc_periph_clock_enable(RCC_GPIOA); // for usart pins
+	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_USART1);
 	// setup gpio pins
 	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, GPIO_USART1_TX | GPIO_USART1_RX);
@@ -48,12 +48,12 @@ void usart_write_string(const uint32_t usart, const char *str)
 void iic_setup(void)
 {
 	// forums say to initialize clock THEN GPIO
-	rcc_periph_clock_enable(GPIOB);
+	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_I2C1);
-	i1c_set_speed(I2C1, i2c_speed_sm_100k, rcc_apb1_frequency/1000000UL);
-	i1c_set_own_7bit_slave_address(I2C1, 0x11);
+	i2c_set_speed(I2C1, i2c_speed_sm_100k, rcc_apb1_frequency/1000000UL);
+	i2c_set_own_7bit_slave_address(I2C1, 0x11);
 	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_10_MHZ, GPIO_CNF_OUTPUT_ALTFN_OPENDRAIN, GPIO_I2C1_SDA | GPIO_I2C1_SCL);
 	// maybe setting them will help
 	gpio_set(GPIOB, GPIO_I2C1_SCL|GPIO_I2C1_SDA);
-	i1c_peripheral_enable(I2C1);
+	i2c_peripheral_enable(I2C1);
 }

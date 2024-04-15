@@ -49,27 +49,29 @@ int main(void)
 
 	usart_wait_send_ready(USART1);
 
-	uint8_t write_buf;
+	uint8_t write_buf = 0;
 	uint8_t read_h = 0, read_l = 0;
-	uint16_t raw_encoder = 0;
-	volatile float encoder_val = 0;
-	char to_send[7];
+	uint32_t raw_encoder;
+	unsigned int encoder_val = 0;
+	static char to_send[7];
 	usart_write_string(USART1, "Angle\n");
 	float scale = (360.0f/4096.0f);
+	// set hysteresis bits
+	uint16_t hyst = (0x08 << 8 | 0x03 << 2);
+	i2c_transfer7(I2C1, ENC_ADDR, (uint8_t*)&hyst, 2, &read_h, 0);
 
 	while (1)
 	{
 		write_buf = RAW_ANGLE_ADDRH;
-		//i2c_transfer7(I2C1, ENC_ADDR, &write_buf, 1, (uint8_t*)&raw_encoder, 2);
-		//write_buf = RAW_ANGLE_ADDRL;
-		//i2c_transfer7(I2C1, ENC_ADDR, &write_buf, 1, &read_l, 1);
-		//raw_encoder = (uint16_t)read_h << 8 | (uint16_t)read_l;
-		raw_encoder++;
-		raw_encoder &= 0x0FFF;
-		encoder_val = raw_encoder * scale;
+		i2c_transfer7(I2C1, ENC_ADDR, &write_buf, 1, &read_h, 1);
+		write_buf = RAW_ANGLE_ADDRL;
+		i2c_transfer7(I2C1, ENC_ADDR, &write_buf, 1, &read_l, 1);
+		raw_encoder = (uint16_t)(read_h << 8 | read_l);
+		encoder_val = (unsigned int)raw_encoder;
 
-		snprintf(to_send, 7, "%5.2f\n", encoder_val);
+		snprintf(to_send, 7, "%04i\n", encoder_val);
 		usart_write_string(USART1, to_send);
+		//usart_write(USART1, to_send, 6);
 		delay(30);
 	}
 	return 0;
